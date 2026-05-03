@@ -1,11 +1,12 @@
 FROM python:3.10-slim
 
-# Install system dependencies (needed for many python packages to compile)
-RUN apt-get update && apt-get install -y \
+# Install system dependencies with retries to handle transient network issues (Exit Code 100)
+RUN apt-get update || (sleep 5 && apt-get update) && apt-get install -y \
     build-essential \
     curl \
     software-properties-common \
     git \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Create user
