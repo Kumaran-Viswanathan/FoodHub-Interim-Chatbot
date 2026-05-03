@@ -1,4 +1,3 @@
-%%writefile Dockerfile
 FROM python:3.10-slim
 
 # Install system dependencies with retries to handle transient network issues
