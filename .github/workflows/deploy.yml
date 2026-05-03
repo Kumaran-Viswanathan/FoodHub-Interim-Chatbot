@@ -1,0 +1,21 @@
+name: Build and Deploy Interim SQL AI Agent 
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # Solves Node.js deprecation
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to Hub
+        uses: huggingface/hub-sync@v0.1.0 # Solves v1 not found error
+        with:
+          github_repo_id: ${{ github.repository }}
+          huggingface_repo_id: AIForecaster/Foodhub-Interim-Chatbot
+          hf_token: ${{ secrets.HF_TOKEN }}
